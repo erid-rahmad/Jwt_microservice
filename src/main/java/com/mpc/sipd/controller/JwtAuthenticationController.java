@@ -1,5 +1,8 @@
 package com.mpc.sipd.controller;
 
+import java.time.LocalDate;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -33,6 +36,9 @@ public class JwtAuthenticationController {
     @Autowired
     private JwtUserDetailsService userDetailsService;
 
+//    LocalDate localDate = LocalDate.now();
+
+
 
     @RequestMapping(value = "/authenticate", method = RequestMethod.POST)
     public Map<String,?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
@@ -43,9 +49,15 @@ public class JwtAuthenticationController {
 
         JwtResponse response= new JwtResponse(token);
         Map<String,String> respon = new HashMap<>();
+        Date dt = new Date();
+        Calendar c = Calendar.getInstance();
+        c.setTime(dt);
+        c.add(Calendar.DATE, 5);
+        dt = c.getTime();
 
         respon.put("access_token",response.getToken());
-        respon.put("expired_in","today");
+
+        respon.put("expired_in",dt.toString());
 
 
         return respon;
