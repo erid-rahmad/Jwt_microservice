@@ -1,4 +1,4 @@
-package com.tambuahciek.restaurant.config;
+package com.mpc.sipd.config;
 
 import java.io.Serializable;
 import java.util.Date;

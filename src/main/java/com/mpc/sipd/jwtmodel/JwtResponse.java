@@ -1,4 +1,4 @@
-package com.tambuahciek.restaurant.jwtmodel;
+package com.mpc.sipd.jwtmodel;
 
 import java.io.Serializable;
 public class JwtResponse implements Serializable {

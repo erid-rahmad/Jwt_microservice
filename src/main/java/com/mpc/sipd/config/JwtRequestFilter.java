@@ -1,4 +1,4 @@
-package com.tambuahciek.restaurant.config;
+package com.mpc.sipd.config;
 
 import java.io.IOException;
 import javax.servlet.FilterChain;
@@ -12,7 +12,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
-import com.tambuahciek.restaurant.config.JwtUserDetailsService;
 import io.jsonwebtoken.ExpiredJwtException;
 @Component
 public class JwtRequestFilter extends OncePerRequestFilter {

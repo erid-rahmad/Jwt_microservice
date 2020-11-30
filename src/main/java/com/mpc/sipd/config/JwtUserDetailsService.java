@@ -1,4 +1,4 @@
-package com.tambuahciek.restaurant.config;
+package com.mpc.sipd.config;
 import java.util.ArrayList;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;

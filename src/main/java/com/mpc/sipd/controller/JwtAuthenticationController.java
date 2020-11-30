@@ -1,8 +1,14 @@
-package com.tambuahciek.restaurant.controller;
+package com.mpc.sipd.controller;
 
-import java.util.Objects;
+import java.util.HashMap;
+import java.util.Map;
+
+import com.mpc.sipd.config.JwtUserDetailsService;
+import com.mpc.sipd.jwtmodel.JwtRequest;
+import com.mpc.sipd.jwtmodel.JwtResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
@@ -13,28 +19,36 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import com.tambuahciek.restaurant.config.JwtUserDetailsService;
-import com.tambuahciek.restaurant.config.JwtTokenUtil;
-import com.tambuahciek.restaurant.jwtmodel.JwtRequest;
-import com.tambuahciek.restaurant.jwtmodel.JwtResponse;
+import com.mpc.sipd.config.JwtTokenUtil;
 
 
 @RestController
 @CrossOrigin
 public class JwtAuthenticationController {
+    private static final Logger log = LoggerFactory.getLogger(ControlAut.class);
     @Autowired
     private AuthenticationManager authenticationManager;
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
     @Autowired
     private JwtUserDetailsService userDetailsService;
+
+
     @RequestMapping(value = "/authenticate", method = RequestMethod.POST)
-    public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
+    public Map<String,?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
         authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
         final UserDetails userDetails = userDetailsService
                 .loadUserByUsername(authenticationRequest.getUsername());
         final String token = jwtTokenUtil.generateToken(userDetails);
-        return ResponseEntity.ok(new JwtResponse(token));
+
+        JwtResponse response= new JwtResponse(token);
+        Map<String,String> respon = new HashMap<>();
+
+        respon.put("access_token",response.getToken());
+        respon.put("expired_in","today");
+
+
+        return respon;
     }
     private void authenticate(String username, String password) throws Exception {
         try {
