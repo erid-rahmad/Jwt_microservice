@@ -66,4 +66,10 @@ public class ControlAut {
 
         return s;
     }
+
+    @GetMapping(value = "/halo")
+    public String getProductList5() {
+        System.out.println("json");
+        return "oke";
+    }
 }
