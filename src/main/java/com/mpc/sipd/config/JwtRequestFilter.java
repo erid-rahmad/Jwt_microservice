@@ -5,6 +5,8 @@ import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -14,6 +16,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import io.jsonwebtoken.ExpiredJwtException;
 @Component
+@Log4j2
 public class JwtRequestFilter extends OncePerRequestFilter {
     @Autowired
     private JwtUserDetailsService jwtUserDetailsService;
@@ -22,13 +25,15 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws ServletException, IOException {
-        final String requestTokenHeader = request.getHeader("Authorization");
+        final String requestTokenHeader = request.getHeader("X-Token");
+        log.info("this requestTokenHeader {} ",requestTokenHeader);
         String username = null;
         String jwtToken = null;
         // JWT Token is in the form "Bearer token". Remove Bearer word and get
         // only the Token
-        if (requestTokenHeader != null && requestTokenHeader.startsWith("Bearer ")) {
-            jwtToken = requestTokenHeader.substring(7);
+        if (requestTokenHeader != null ) {
+            jwtToken = requestTokenHeader;
+            log.info("this jwtoken {} ",jwtToken);
             try {
                 username = jwtTokenUtil.getUsernameFromToken(jwtToken);
             } catch (IllegalArgumentException e) {
