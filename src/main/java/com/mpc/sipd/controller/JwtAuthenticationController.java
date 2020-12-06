@@ -17,11 +17,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import com.mpc.sipd.config.JwtTokenUtil;
 
 
@@ -41,10 +37,15 @@ public class JwtAuthenticationController {
 
 
     @RequestMapping(value = "/sipd-bsb/token/getToken", method = RequestMethod.POST)
-    public Map<String,?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
-        authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
+    public Map<String,?> createAuthenticationToken(@RequestBody Map<String,Object> authenticationRequest ) throws Exception {
+
+//        log.debug("this is authentic {}",authenticationRequest);
+//        log.debug("this key {}",authenticationRequest.get("client_id"));
+//        log.debug("this key {}",authenticationRequest.get("client_secret"));
+
+        authenticate(authenticationRequest.get("client_id").toString(), authenticationRequest.get("client_secret").toString());
         final UserDetails userDetails = userDetailsService
-                .loadUserByUsername(authenticationRequest.getUsername());
+                .loadUserByUsername(authenticationRequest.get("client_id").toString());
         final String token = jwtTokenUtil.generateToken(userDetails);
 
         JwtResponse response= new JwtResponse(token);

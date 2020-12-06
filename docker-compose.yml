@@ -1,0 +1,12 @@
+version: "3.8"
+services:
+  sipd-http:
+    container_name: sipd-http
+    image: sipd-http
+    ports:
+      - "8100:8100"
+      - "8102:8102"
+#    volumes:
+#      - C:/DOCKER/config: /config
+#      - C:/DOCKER/logs: /logs
+
