@@ -1,18 +1,8 @@
-#jwt.secret=javainuse
-#url.inquiry=http://10.10.77.57:8102/sipd-bsb/sipd/api/transaction/inquiry
-#url.checkStatus=http://localhost:8102/sipd-bsb/sipd/api/transaction/checkStatus
-#url.trxHistory=http://localhost:8102/sipd-bsb/sipd/api/transaction/trxHistory
-#url.overbooking=http://localhost:8102/sipd-bsb/sipd/api/transaction/overbooking
-#url.callback=http://13.248.177.237/scallback/sumsel-babel
-#aut.id=bebas
-#aut.pass=jugabebsas
-#server.port=8100
-
 url:
   inquiry: http://10.10.77.57:8102/sipd-bsb/sipd/api/transaction/inquiry
-  checkStatus: http://localhost:8102/sipd-bsb/sipd/api/transaction/checkStatus
-  trxHistory: http://localhost:8102/sipd-bsb/sipd/api/transaction/trxHistory
-  overbooking: http://localhost:8102/sipd-bsb/sipd/api/transaction/overbooking
+  checkStatus: http://10.10.77.57:8102/sipd-bsb/sipd/api/transaction/checkStatus
+  trxHistory: http://10.10.77.57:8102/sipd-bsb/sipd/api/transaction/trxHistory
+  overbooking: http://10.10.77.57:8102/sipd-bsb/sipd/api/transaction/overbooking
   callback: http://13.248.177.237/scallback/sumsel-babel
 
 jwt:
@@ -24,11 +14,17 @@ aut:
 
 server:
   port: 8100
+  ssl:
+    key-store-type: PKCS12
+    enabled: false
+    key-alias: tomcat
+    key-store: "src/main/resources/keystore.p12"
+    key-store-password: "123123"
 
 logging:
   level:
     org.apache.kafka: OFF
-    org.springframework: debug
+    org.springframework: INFO
     com.mpc.sipd: DEBUG
   pattern:
     console: "%d{dd-MM-yyyy HH:mm:ss} %5p %c{1}:%L - %m%n"
