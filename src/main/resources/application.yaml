@@ -4,6 +4,12 @@ url:
   trxHistory: http://10.10.77.57:8102/sipd-bsb/sipd/api/transaction/trxHistory
   overbooking: http://10.10.77.57:8102/sipd-bsb/sipd/api/transaction/overbooking
   callback: http://13.248.177.237/scallback/sumsel-babel
+#url:
+#  inquiry: http://localhost:8102/tes
+#  checkStatus: http://localhost:8102/tes
+#  trxHistory: http://localhost:8102/tes
+#  overbooking: http://localhost:8102/tes
+#  callback: http://13.248.177.237/scallback/sumsel-babel
 
 jwt:
   secret: javainuse
@@ -11,15 +17,17 @@ jwt:
 aut:
   id: bebas
   pass: jugabebsas
+  usrtoback: aUTh3nt!C@t0r
+  passtoback: v3r!f!3dU$er
 
 server:
   port: 8100
-  ssl:
-    key-store-type: PKCS12
-    enabled: false
-    key-alias: tomcat
-    key-store: "src/main/resources/keystore.p12"
-    key-store-password: "123123"
+#  ssl:
+#    key-store-type: PKCS12
+#    enabled: false
+#    key-alias: tomcat
+#    key-store: "src/main/resources/keystore.p12"
+#    key-store-password: "123123"
 
 logging:
   level:

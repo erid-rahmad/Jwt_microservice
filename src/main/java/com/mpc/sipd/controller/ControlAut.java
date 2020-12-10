@@ -6,10 +6,14 @@ import lombok.extern.log4j.Log4j2;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpServletResponse;
+import java.nio.charset.Charset;
 import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
@@ -20,8 +24,11 @@ import java.util.Map;
 
 public class ControlAut {
 
-    @Autowired
-    RestTemplate restTemplate;
+    @Value("${aut.usrtoback}")
+    private String username;
+
+    @Value("${aut.passtoback}")
+    private String pasword;
 
     @Value("${url.inquiry}")
     private String urlinq;
@@ -43,6 +50,15 @@ public class ControlAut {
 
     @Value("${aut.pass}")
     private String originalpass;
+
+    String auth = username+":"+pasword;
+    byte[] encodedAuth = org.apache.commons.codec.binary.Base64.encodeBase64(auth.getBytes(Charset.forName("US-ASCII")));
+    String authHeader = "Basic " + new String( encodedAuth );
+
+    RestTemplate restTemplate = new RestTemplateBuilder(rt-> rt.getInterceptors().add((request, body, execution) -> {
+        request.getHeaders().add("Authorization",authHeader );
+        return execution.execute(request, body);
+    })).build();
 
     @PostMapping(value = "/inquiry")
     public Map<String,Object> getProductList1(@RequestBody Map<String,Object> json) {
