@@ -35,13 +35,8 @@ public class JwtAuthenticationController {
 //    LocalDate localDate = LocalDate.now();
 
 
-
     @RequestMapping(value = "/sipd-bsb/token/getToken", method = RequestMethod.POST)
     public Map<String,?> createAuthenticationToken(@RequestBody Map<String,Object> authenticationRequest ) throws Exception {
-
-//        log.debug("this is authentic {}",authenticationRequest);
-//        log.debug("this key {}",authenticationRequest.get("client_id"));
-//        log.debug("this key {}",authenticationRequest.get("client_secret"));
 
         authenticate(authenticationRequest.get("client_id").toString(), authenticationRequest.get("client_secret").toString());
         final UserDetails userDetails = userDetailsService
@@ -50,16 +45,10 @@ public class JwtAuthenticationController {
 
         JwtResponse response= new JwtResponse(token);
         Map<String,String> respon = new HashMap<>();
-        Date dt = new Date();
-        Calendar c = Calendar.getInstance();
-        c.setTime(dt);
-        c.add(Calendar.DATE, 5);
-        dt = c.getTime();
-
         respon.put("access_token",response.getToken());
-
-        respon.put("expired_in",dt.toString());
-
+        respon.put("expired_in","3600");
+        log.info(String.valueOf(authenticationRequest));
+        log.info(String.valueOf(respon));
 
         return respon;
     }

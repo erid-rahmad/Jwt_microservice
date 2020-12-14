@@ -17,8 +17,8 @@ jwt:
 aut:
   id: bebas
   pass: jugabebsas
-  usrtoback: aUTh3nt!C@t0r
-  passtoback: v3r!f!3dU$er
+  usrtoback:
+  passtoback:
 
 server:
   port: 8100

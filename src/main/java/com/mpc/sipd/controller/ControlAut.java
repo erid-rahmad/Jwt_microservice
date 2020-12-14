@@ -14,6 +14,7 @@ import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpServletResponse;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
@@ -51,9 +52,8 @@ public class ControlAut {
     @Value("${aut.pass}")
     private String originalpass;
 
-    String auth = username+":"+pasword;
-    byte[] encodedAuth = org.apache.commons.codec.binary.Base64.encodeBase64(auth.getBytes(Charset.forName("US-ASCII")));
-    String authHeader = "Basic " + new String( encodedAuth );
+    String encodedString = Base64.getEncoder().encodeToString(("aUTh3nt!C@t0r:v3r!f!3dU$er").getBytes());
+    String authHeader = "Basic " + new String( encodedString );
 
     RestTemplate restTemplate = new RestTemplateBuilder(rt-> rt.getInterceptors().add((request, body, execution) -> {
         request.getHeaders().add("Authorization",authHeader );
@@ -72,6 +72,7 @@ public class ControlAut {
     @PostMapping(value = "/checkStatus")
     public Map<String,Object> getProductList2(@RequestBody Map<String,Object> json) {
         log.info(MapperJSONUtil.prettyLog(json));
+        log.info("this header {}",authHeader);
         Map<String,Object> s =restTemplate.postForObject(checkStatus,json, Map.class);
         log.info(MapperJSONUtil.prettyLog(s));
         return s;
