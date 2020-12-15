@@ -1,11 +1,14 @@
 package com.mpc.sipd.config;
 import java.util.ArrayList;
+
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 @Service
+@Slf4j
 public class JwtUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -14,6 +17,7 @@ public class JwtUserDetailsService implements UserDetailsService {
                     new ArrayList<>());
         } else {
             throw new UsernameNotFoundException("User not found with username: " + username);
+
         }
     }
 }
